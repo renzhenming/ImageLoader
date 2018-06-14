@@ -50,7 +50,11 @@ public class BitmapRequest implements Comparator<BitmapRequest>{
      */
     private SimpleImageLoader.ImageListener imageListener;
 
-    public BitmapRequest(ImageView imageView,String imageUrl) {
+    public BitmapRequest() {
+
+    }
+
+    public BitmapRequest(ImageView imageView, String imageUrl) {
         this(imageView,imageUrl,null,null);
     }
 

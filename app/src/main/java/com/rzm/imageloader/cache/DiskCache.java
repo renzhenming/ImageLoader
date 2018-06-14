@@ -5,6 +5,6 @@ package com.rzm.imageloader.cache;
  * Time:2018/6/13 7:20
  * Description:This is DiskCache
  */
-public class DiskCache {
+public class DiskCache implements BitmapCache {
 
 }
