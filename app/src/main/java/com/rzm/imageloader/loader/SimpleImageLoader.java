@@ -3,7 +3,9 @@ package com.rzm.imageloader.loader;
 import android.graphics.Bitmap;
 import android.widget.ImageView;
 
+import com.rzm.imageloader.config.DisplayConfig;
 import com.rzm.imageloader.config.ImageLoaderConfig;
+import com.rzm.imageloader.request.BitmapRequest;
 import com.rzm.imageloader.request.RequestQueue;
 
 /**
@@ -16,14 +18,14 @@ public class SimpleImageLoader {
     /**
      * 持有配置信息对象的引用
      */
-    public ImageLoaderConfig config;
+    private ImageLoaderConfig config;
 
     private static volatile SimpleImageLoader instance;
 
     /**
      * 请求队列
      */
-    public RequestQueue requestQueue;
+    private RequestQueue requestQueue;
 
     private SimpleImageLoader(){}
 
@@ -65,17 +67,34 @@ public class SimpleImageLoader {
      * @param url
      */
     public void display(ImageView imageView,String url){
-
+        display(imageView,url,null,null);
+    }
+    /**
+     * 显示图片
+     * @param imageView
+     * @param url
+     */
+    public void display(ImageView imageView,String url,DisplayConfig displayConfig){
+        display(imageView,url,displayConfig,null);
     }
 
+    /**
+     * 显示图片
+     * @param imageView
+     * @param url
+     */
+    public void display(ImageView imageView,String url,ImageListener listener){
+        display(imageView,url,null,listener);
+    }
     /**
      * 显示图片，用于针对特殊图片配置特殊的配置信息
      * @param imageView
      * @param url
-     * @param config
+     * @param displayConfig
+     * @param listener
      */
-    public void display(ImageView imageView,String url,ImageLoaderConfig config){
-
+    public void display(ImageView imageView,String url,DisplayConfig displayConfig,ImageListener listener){
+       // BitmapRequest request= new BitmapRequest();
     }
 
     /**
@@ -83,5 +102,13 @@ public class SimpleImageLoader {
      */
     public static interface ImageListener{
         void onComplete(ImageView imageView, Bitmap bitmap,String url);
+    }
+
+    /**
+     * 获取全局配置
+     * @return
+     */
+    public ImageLoaderConfig getConfig() {
+        return config;
     }
 }
