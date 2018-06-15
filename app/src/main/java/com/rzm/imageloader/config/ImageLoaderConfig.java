@@ -14,22 +14,22 @@ public class ImageLoaderConfig {
     /**
      * 图片显示配置 TODO 初始化
      */
-    public DisplayConfig displayConfig;
+    private DisplayConfig displayConfig;
 
     /**
      * 缓存策略
      */
-    public BitmapCache bitmapCache;
+    private BitmapCache bitmapCache;
 
     /**
      * 加载策略
      */
-    public LoadPolicy loadPolicy;
+    private LoadPolicy loadPolicy;
 
     /**
      * 默认线程数
      */
-    public int threadCount = Runtime.getRuntime().availableProcessors();
+    private int threadCount = Runtime.getRuntime().availableProcessors();
 
     private ImageLoaderConfig(){}
 

@@ -18,12 +18,16 @@ public class RequestDispatcher extends Thread{
         this.blockingQueue = blockingQueue;
     }
 
+    /**
+     * 阻塞式队列，转发器开启，从队列中取请求队列，如果没有则会阻塞当前线程，所以这里
+     * 是在子线程开启的
+     */
     @Override
     public void run() {
         while(!isInterrupted()){
             try {
                 BitmapRequest request = blockingQueue.take();
-                //处理请求对象
+                //处理请求对象，交给loader
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

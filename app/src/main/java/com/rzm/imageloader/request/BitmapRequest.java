@@ -101,6 +101,16 @@ public class BitmapRequest implements Comparator<BitmapRequest>{
     }
 
     /**
+     * 获取这个请求对应的ImageView
+     * @return
+     */
+    public ImageView getImageView(){
+        if (imageViewSoftReference == null)
+            return null;
+        return imageViewSoftReference.get();
+    }
+
+    /**
      * BitmapRequest会被加入请求队列中，在队列中有需要做判断当前请求是否存在
      * 那么就涉及到这个对象的比较，所以需要重写hashCode和equals方法
      */

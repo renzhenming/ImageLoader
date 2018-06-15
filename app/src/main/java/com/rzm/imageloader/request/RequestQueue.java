@@ -32,6 +32,10 @@ public class RequestQueue {
      */
     private RequestDispatcher[] dispatchers;
 
+    public RequestQueue(int threadCount) {
+        this.threadCount = threadCount;
+    }
+
     /**
      * 请求对象加入队列
      * @param request
@@ -49,9 +53,25 @@ public class RequestQueue {
 
     /**
      * 开始请求
+     * SimpleImageLoader初始化时开启
      */
     public void start(){
+        //先停止再开启，考虑安全性，比如开启动画，设置adapter都是这样处理
+        stop();
+        startDispatchers();
+    }
 
+    /**
+     * 开启转发器
+     */
+    private void startDispatchers() {
+        dispatchers = new RequestDispatcher[threadCount];
+        for (int i1 = 0; i1 < threadCount; i1++) {
+            RequestDispatcher dispatcher = new RequestDispatcher(blockingQueue);
+            dispatchers[i1] = dispatcher;
+            //Thread run方法执行
+            dispatchers[i1].start();
+        }
     }
 
     /**
