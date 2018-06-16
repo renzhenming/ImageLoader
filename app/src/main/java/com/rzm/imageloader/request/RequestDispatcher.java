@@ -1,5 +1,11 @@
 package com.rzm.imageloader.request;
 
+import android.text.TextUtils;
+import android.util.Log;
+
+import com.rzm.imageloader.loader.Loader;
+import com.rzm.imageloader.loader.LoaderManager;
+
 import java.util.concurrent.BlockingQueue;
 
 /**
@@ -28,9 +34,33 @@ public class RequestDispatcher extends Thread{
             try {
                 BitmapRequest request = blockingQueue.take();
                 //处理请求对象，交给loader
+                String schema = parseSchema(request.getImageUrl());
+                //获取加载器
+                Loader loader = LoaderManager.getInstance().getLoader(schema);
+                loader.load(request);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
+    }
+
+    /**
+     * 根据图片url判断加载类型
+     * @param imageUrl
+     * @return
+     */
+    private String parseSchema(String imageUrl) {
+        if (TextUtils.isEmpty(imageUrl)){
+            throw new NullPointerException("url cannot be null");
+        }
+        if (imageUrl.contains("://")){
+            //形如 http://xxx 或者file://xxx，这样截取后
+            //可以获得http file等前缀，根据这个前缀获取相应
+            //的加载器
+            return imageUrl.split("://")[0];
+        }else{
+            Log.d("TAG","不持支的图片类型");
+        }
+        return null;
     }
 }

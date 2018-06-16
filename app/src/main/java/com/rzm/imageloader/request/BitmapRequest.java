@@ -110,6 +110,30 @@ public class BitmapRequest implements Comparator<BitmapRequest>{
         return imageViewSoftReference.get();
     }
 
+    public DisplayConfig getDisPlayConfig() {
+        return disPlayConfig;
+    }
+
+    public LoadPolicy getLoadPolicy() {
+        return loadPolicy;
+    }
+
+    public SoftReference<ImageView> getImageViewSoftReference() {
+        return imageViewSoftReference;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public String getImageUrlMd5() {
+        return imageUrlMd5;
+    }
+
+    public SimpleImageLoader.ImageListener getImageListener() {
+        return imageListener;
+    }
+
     /**
      * BitmapRequest会被加入请求队列中，在队列中有需要做判断当前请求是否存在
      * 那么就涉及到这个对象的比较，所以需要重写hashCode和equals方法
