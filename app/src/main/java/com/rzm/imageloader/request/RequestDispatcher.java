@@ -55,7 +55,7 @@ public class RequestDispatcher extends Thread{
      */
     private String parseSchema(String imageUrl) {
         if (TextUtils.isEmpty(imageUrl)){
-            throw new NullPointerException("url cannot be null");
+            return null;
         }
         if (imageUrl.contains("://")){
             //形如 http://xxx 或者file://xxx，这样截取后

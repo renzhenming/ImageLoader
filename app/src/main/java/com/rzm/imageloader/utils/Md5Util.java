@@ -1,11 +1,16 @@
 package com.rzm.imageloader.utils;
 
+import android.text.TextUtils;
+
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 public class Md5Util {
 
     public static String toMD5(String sbs) {
+        if (TextUtils.isEmpty(sbs)){
+            return null;
+        }
         MessageDigest digest;
         try {
             digest = MessageDigest.getInstance("MD5");
@@ -19,6 +24,9 @@ public class Md5Util {
     }
 
     private static String toHexString(byte[] bytes, String separtor) {
+        if (bytes == null || bytes.length <= 0){
+            return null;
+        }
         StringBuilder hexString = new StringBuilder();
         for (byte b : bytes) {
             String hex = Integer.toHexString(0xff & b);

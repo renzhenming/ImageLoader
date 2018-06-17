@@ -3,12 +3,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:orientation="vertical"
+    android:gravity="center"
     android:layout_height="match_parent"
     tools:context="com.rzm.MainActivity">
     <Button
         android:layout_width="match_parent"
-        android:text="进入相册"
+        android:text="本地相册"
         android:onClick="jump"
         android:layout_height="wrap_content" />
-
+    <Button
+        android:layout_width="match_parent"
+        android:text="网络图片"
+        android:onClick="net"
+        android:layout_height="wrap_content" />
 </LinearLayout>

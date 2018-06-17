@@ -1,7 +1,6 @@
 package com.rzm.selectimage;
 
 import android.content.Context;
-import android.net.Uri;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
@@ -10,7 +9,6 @@ import android.widget.Toast;
 import com.rzm.imageloader.R;
 import com.rzm.imageloader.loader.SimpleImageLoader;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 

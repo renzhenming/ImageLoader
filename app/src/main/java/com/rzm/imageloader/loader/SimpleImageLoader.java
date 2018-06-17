@@ -44,7 +44,7 @@ public class SimpleImageLoader {
      * @param config
      * @return
      */
-    public static SimpleImageLoader getInstance(ImageLoaderConfig config){
+    public static SimpleImageLoader init(ImageLoaderConfig config){
         if (instance == null){
             synchronized (SimpleImageLoader.class){
                 if (instance == null){
@@ -61,7 +61,7 @@ public class SimpleImageLoader {
      */
     public static SimpleImageLoader getInstance(){
         if (instance == null){
-            throw new UnsupportedOperationException("SimpleImageLoader haven't been init with ImageLoaderConfig,call getInstance(ImageLoaderConfig config) in your application");
+            throw new UnsupportedOperationException("SimpleImageLoader haven't been getInstance with ImageLoaderConfig,call getInstance(ImageLoaderConfig config) in your application");
         }
         return instance;
     }
@@ -99,11 +99,8 @@ public class SimpleImageLoader {
      * @param listener
      */
     public void display(ImageView imageView,String url,DisplayConfig displayConfig,ImageListener listener){
-        if (imageView == null){
+        if (imageView  == null){
             throw new NullPointerException("ImageView cannot be null");
-        }
-        if (TextUtils.isEmpty(url)){
-            throw new NullPointerException("Image url cannot be null");
         }
         //封装成一个请求对象
         BitmapRequest request= new BitmapRequest(imageView,url,displayConfig,listener);

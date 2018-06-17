@@ -25,16 +25,19 @@ public class MemoryCache implements BitmapCache{
     }
     @Override
     public Bitmap get(BitmapRequest request) {
+        if (mLruCache == null) return null;
         return mLruCache.get(request.getImageUrlMd5());
     }
 
     @Override
     public void put(BitmapRequest request, Bitmap bitmap) {
+        if (mLruCache == null) return;
         mLruCache.put(request.getImageUrlMd5(),bitmap);
     }
 
     @Override
     public void remove(BitmapRequest request) {
+        if (mLruCache == null) return;
         mLruCache.remove(request.getImageUrlMd5());
     }
 }

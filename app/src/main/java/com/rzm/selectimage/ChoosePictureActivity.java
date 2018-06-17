@@ -156,6 +156,7 @@ public class ChoosePictureActivity extends AppCompatActivity implements ChoosePi
                 while (data.moveToNext()) {
                     // 只保存路径
                     String path = data.getString(data.getColumnIndexOrThrow(IMAGE_PROJECTION[0]));
+                    path = "file://"+path;
                     images.add(path);
                 }
 
@@ -176,8 +177,12 @@ public class ChoosePictureActivity extends AppCompatActivity implements ChoosePi
      * @param images
      */
     private void showImageList(ArrayList<String> images) {
-
-        ChoosePictureAdapter listAdapter = new ChoosePictureAdapter(this, list, mResultList, mMaxCount);
+        boolean isNet = getIntent().getBooleanExtra("isNet", false);
+        if (isNet){
+            images.clear();
+            images = list;
+        }
+        ChoosePictureAdapter listAdapter = new ChoosePictureAdapter(this, images, mResultList, mMaxCount);
         listAdapter.setOnSelectImageListener(this);
         mImageListRv.setLayoutManager(new GridLayoutManager(this, 4));
         mImageListRv.setAdapter(listAdapter);

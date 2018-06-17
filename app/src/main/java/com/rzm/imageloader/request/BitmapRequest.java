@@ -69,9 +69,13 @@ public class BitmapRequest implements Comparable<BitmapRequest>{
     public BitmapRequest(ImageView imageView, String imageUrl, DisplayConfig displayConfig,
                          SimpleImageLoader.ImageListener imageListener){
         this.imageViewSoftReference = new SoftReference<ImageView>(imageView);
-        imageView.setTag(imageUrl);
+
+        if (imageUrl != null) {
+            imageView.setTag(imageUrl);
+            imageUrlMd5 = Md5Util.toMD5(imageUrl);
+        }
         this.imageUrl = imageUrl;
-        imageUrlMd5 = Md5Util.toMD5(imageUrl);
+
         if (displayConfig != null){
             this.disPlayConfig = displayConfig;
         }

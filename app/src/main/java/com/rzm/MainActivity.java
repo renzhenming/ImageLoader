@@ -41,4 +41,17 @@ public class MainActivity extends AppCompatActivity {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         PermissionHelper.requestPermissionsResult(this,requestCode,permissions,grantResults);
     }
+
+    public void net(View view) {
+        PermissionHelper.with(this).requestCode(200).requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}).request();
+
+    }
+    @PermissionSucceed(requestCode = 200)
+    public void onSuccess2(){
+        startActivity(new Intent(getApplicationContext(), ChoosePictureActivity.class).putExtra("isNet",true));
+    }
+    @PermissionDenied(requestCode = 200)
+    public void onFailed2(){
+
+    }
 }

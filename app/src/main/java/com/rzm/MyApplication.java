@@ -6,7 +6,6 @@ import com.rzm.imageloader.R;
 import com.rzm.imageloader.cache.MemoryDiskCache;
 import com.rzm.imageloader.config.ImageLoaderConfig;
 import com.rzm.imageloader.loader.SimpleImageLoader;
-import com.rzm.imageloader.policy.ReversePolicy;
 import com.rzm.imageloader.policy.SerialPolicy;
 
 public class MyApplication extends Application {
@@ -31,7 +30,7 @@ public class MyApplication extends Application {
 
         ImageLoaderConfig config = build.build();
         //初始化
-        SimpleImageLoader imageLoader = SimpleImageLoader.getInstance(config);
+        SimpleImageLoader.init(config);
     }
 
 

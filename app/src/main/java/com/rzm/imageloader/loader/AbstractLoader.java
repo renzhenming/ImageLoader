@@ -6,6 +6,9 @@ import android.widget.ImageView;
 import com.rzm.imageloader.cache.BitmapCache;
 import com.rzm.imageloader.config.DisplayConfig;
 import com.rzm.imageloader.request.BitmapRequest;
+import com.rzm.imageloader.utils.LogUtils;
+
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Author:renzhenming
@@ -16,6 +19,9 @@ import com.rzm.imageloader.request.BitmapRequest;
  */
 public abstract class AbstractLoader implements Loader {
 
+    private static final String TAG = "AbstractLoader";
+
+    private AtomicInteger integer = new AtomicInteger(0);
     /**
      * 加载器加载图片的逻辑是先缓存后网络，所以需要持有缓存对象的引用
      */
@@ -28,7 +34,7 @@ public abstract class AbstractLoader implements Loader {
 
     @Override
     public void load(BitmapRequest request) {
-        //先从缓存中获取Bitmap
+        //从缓存中获取Bitmap
         Bitmap bitmap= null;
         if (bitmapCache != null) {
             bitmap = bitmapCache.get(request);
@@ -39,9 +45,24 @@ public abstract class AbstractLoader implements Loader {
             //开始加载网络图，加载的逻辑不同加载器有所不同，所以交给各自
             //加载器实现，抽象
             bitmap = onLoad(request);
+            if (bitmap == null){
+                while(integer.incrementAndGet() <=3){
+                    LogUtils.d(TAG,"加载失败，重连第"+integer+"次");
+                    bitmap = onLoad(request);
+                    if (bitmap != null){
+                        break;
+                    }
+                }
+                integer.set(0);
+            }
+            if (bitmap == null){
+                LogUtils.d(TAG,"重连3次失败，放弃加载");
+            }
             //加入缓存
-            if (bitmapCache != null)
+            if (bitmapCache != null && bitmap != null)
                 cacheBitmap(request,bitmap);
+        }else{
+            //有缓存
         }
         deliveryToUIThread(request,bitmap);
     }

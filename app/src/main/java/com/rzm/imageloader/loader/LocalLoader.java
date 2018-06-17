@@ -20,9 +20,6 @@ public class LocalLoader extends AbstractLoader {
 
     @Override
     public Bitmap onLoad(BitmapRequest request) {
-        if (request == null){
-            throw new NullPointerException("request cannot be null");
-        }
         //得到本地图片的路径
         final String path = Uri.parse(request.getImageUrl()).getPath();
         File file = new File(path);

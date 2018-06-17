@@ -2,6 +2,7 @@ package com.rzm.imageloader.loader;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.text.TextUtils;
 
 import com.rzm.imageloader.request.BitmapRequest;
 import com.rzm.imageloader.utils.BitmapDecoder;
@@ -23,17 +24,18 @@ import java.net.URLConnection;
  */
 public class UrlLoader extends AbstractLoader {
 
-
-
     @Override
     public Bitmap onLoad(BitmapRequest request) {
-        if (request == null){
-            throw new NullPointerException("request cannot be null");
-        }
-
         try {
-            URL url = new URL(request.getImageUrl());
+            String imageUrl = request.getImageUrl();
+            if (TextUtils.isEmpty(imageUrl)){
+                return null;
+            }
+            URL url = new URL(imageUrl);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            if (conn.getResponseCode() != 200){
+                return null;
+            }
             InputStream inputStream = conn.getInputStream();
             //转化成BufferedInputStream
             final BufferedInputStream bufferedInputStream = new BufferedInputStream(inputStream);
