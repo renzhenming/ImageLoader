@@ -49,6 +49,9 @@ public class LoaderManager {
      * @return
      */
     public Loader getLoader(String schema){
+        if (schema == null){
+            return null;
+        }
         return mLoaders.get(schema);
     }
 }

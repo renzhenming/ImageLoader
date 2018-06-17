@@ -1,6 +1,7 @@
 package com.rzm.imageloader.config;
 
 import com.rzm.imageloader.cache.BitmapCache;
+import com.rzm.imageloader.cache.MemoryCache;
 import com.rzm.imageloader.policy.LoadPolicy;
 
 /**
@@ -12,14 +13,14 @@ import com.rzm.imageloader.policy.LoadPolicy;
 public class ImageLoaderConfig {
 
     /**
-     * 图片显示配置 TODO 初始化
+     * 图片显示配置
      */
     private DisplayConfig displayConfig;
 
     /**
      * 缓存策略
      */
-    private BitmapCache bitmapCache;
+    private BitmapCache bitmapCache = new MemoryCache();
 
     /**
      * 加载策略
@@ -31,7 +32,9 @@ public class ImageLoaderConfig {
      */
     private int threadCount = Runtime.getRuntime().availableProcessors();
 
-    private ImageLoaderConfig(){}
+    private ImageLoaderConfig(){
+        displayConfig = new DisplayConfig();
+    }
 
     /**
      * 建造者模式

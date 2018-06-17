@@ -15,5 +15,5 @@ public interface LoadPolicy {
      * @param request2
      * @return
      */
-    int compareTo(BitmapRequest request1,BitmapRequest request2);
+    int compareTo(BitmapRequest request1, BitmapRequest request2);
 }

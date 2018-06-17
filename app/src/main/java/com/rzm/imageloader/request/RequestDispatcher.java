@@ -37,6 +37,10 @@ public class RequestDispatcher extends Thread{
                 String schema = parseSchema(request.getImageUrl());
                 //获取加载器
                 Loader loader = LoaderManager.getInstance().getLoader(schema);
+                if (loader == null){
+                    Log.d("TAG",request.getImageUrl() + "没有找到对应的加载器");
+                    return;
+                }
                 loader.load(request);
             } catch (InterruptedException e) {
                 e.printStackTrace();

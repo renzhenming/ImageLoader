@@ -29,7 +29,10 @@ public abstract class AbstractLoader implements Loader {
     @Override
     public void load(BitmapRequest request) {
         //先从缓存中获取Bitmap
-        Bitmap bitmap = bitmapCache.get(request);
+        Bitmap bitmap= null;
+        if (bitmapCache != null) {
+            bitmap = bitmapCache.get(request);
+        }
         if (bitmap == null){
             //显示加载中图片
             showLoadingImg(request);
@@ -37,12 +40,45 @@ public abstract class AbstractLoader implements Loader {
             //加载器实现，抽象
             bitmap = onLoad(request);
             //加入缓存
-            cacheBitmap(request,bitmap);
+            if (bitmapCache != null)
+                cacheBitmap(request,bitmap);
         }
+        deliveryToUIThread(request,bitmap);
     }
 
     public abstract Bitmap onLoad(BitmapRequest request);
 
+    protected void deliveryToUIThread(final BitmapRequest request, final Bitmap bitmap) {
+        ImageView imageView = request.getImageView();
+        if(imageView!=null)
+        {
+            imageView.post(new Runnable() {
+                @Override
+                public void run() {
+                    updateImageView(request, bitmap);
+                }
+
+            });
+        }
+
+    }
+
+    private void updateImageView(final BitmapRequest request, final Bitmap bitmap) {
+        ImageView imageView = request.getImageView();
+        //加载正常  防止图片错位
+        if(bitmap != null && imageView.getTag().equals(request.getImageUrl())){
+            imageView.setImageBitmap(bitmap);
+        }
+        //有可能加载失败
+        if(bitmap == null && displayConfig!=null&&displayConfig.errorImage!=-1){
+            imageView.setImageResource(displayConfig.errorImage);
+        }
+        //监听
+        //回调 给圆角图片  特殊图片进行扩展
+        if(request.getImageListener() != null){
+            request.getImageListener().onComplete(imageView, bitmap, request.getImageUrl());
+        }
+    }
     /**
      * 缓存图片
      * @param request

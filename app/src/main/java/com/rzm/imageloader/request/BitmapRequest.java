@@ -5,16 +5,16 @@ import android.widget.ImageView;
 import com.rzm.imageloader.config.DisplayConfig;
 import com.rzm.imageloader.loader.SimpleImageLoader;
 import com.rzm.imageloader.policy.LoadPolicy;
+import com.rzm.imageloader.utils.Md5Util;
 
 import java.lang.ref.SoftReference;
-import java.util.Comparator;
 
 /**
  * Author:renzhenming
  * Time:2018/6/13 7:23
  * Description:This is BitmapRequest
  */
-public class BitmapRequest implements Comparator<BitmapRequest>{
+public class BitmapRequest implements Comparable<BitmapRequest>{
 
     /**
      * 展示配置
@@ -71,6 +71,7 @@ public class BitmapRequest implements Comparator<BitmapRequest>{
         this.imageViewSoftReference = new SoftReference<ImageView>(imageView);
         imageView.setTag(imageUrl);
         this.imageUrl = imageUrl;
+        imageUrlMd5 = Md5Util.toMD5(imageUrl);
         if (displayConfig != null){
             this.disPlayConfig = displayConfig;
         }
@@ -82,14 +83,11 @@ public class BitmapRequest implements Comparator<BitmapRequest>{
     /**
      * 请求的先后顺序是根据加载的策略进行的，不同的策略比较的条件也不同，所以
      * 这里要把比较的逻辑交割具体的策略去做，策略有多种，所以通过接口调用，增强扩展性
-     * @param o1
-     * @param o2
      * @return
      */
     @Override
-    public int compare(BitmapRequest o1, BitmapRequest o2) {
-
-        return loadPolicy.compareTo(o1,o2);
+    public int compareTo(BitmapRequest o) {
+        return loadPolicy.compareTo(o,this);
     }
 
     public int getSerialNum() {
@@ -153,4 +151,5 @@ public class BitmapRequest implements Comparator<BitmapRequest>{
         result = 66*result+serialNum;
         return result;
     }
+
 }

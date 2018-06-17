@@ -1,6 +1,7 @@
 package com.rzm.imageloader.loader;
 
 import android.graphics.Bitmap;
+import android.text.TextUtils;
 import android.widget.ImageView;
 
 import com.rzm.imageloader.config.DisplayConfig;
@@ -98,6 +99,12 @@ public class SimpleImageLoader {
      * @param listener
      */
     public void display(ImageView imageView,String url,DisplayConfig displayConfig,ImageListener listener){
+        if (imageView == null){
+            throw new NullPointerException("ImageView cannot be null");
+        }
+        if (TextUtils.isEmpty(url)){
+            throw new NullPointerException("Image url cannot be null");
+        }
         //封装成一个请求对象
         BitmapRequest request= new BitmapRequest(imageView,url,displayConfig,listener);
         //加入请求队列

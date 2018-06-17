@@ -1,5 +1,10 @@
 package com.rzm.imageloader.cache;
 
+import android.graphics.Bitmap;
+import android.util.LruCache;
+
+import com.rzm.imageloader.request.BitmapRequest;
+
 /**
  * Author:renzhenming
  * Time:2018/6/13 7:20
@@ -7,4 +12,29 @@ package com.rzm.imageloader.cache;
  */
 public class MemoryCache implements BitmapCache{
 
+    private LruCache<String,Bitmap> mLruCache;
+
+    public MemoryCache(){
+        int maxSize = (int) (Runtime.getRuntime().maxMemory()/1024/8);
+        mLruCache = new LruCache<String,Bitmap>(maxSize){
+            @Override
+            protected int sizeOf(String key, Bitmap value) {
+                return value.getRowBytes()*value.getHeight();
+            }
+        };
+    }
+    @Override
+    public Bitmap get(BitmapRequest request) {
+        return mLruCache.get(request.getImageUrlMd5());
+    }
+
+    @Override
+    public void put(BitmapRequest request, Bitmap bitmap) {
+        mLruCache.put(request.getImageUrlMd5(),bitmap);
+    }
+
+    @Override
+    public void remove(BitmapRequest request) {
+        mLruCache.remove(request.getImageUrlMd5());
+    }
 }
