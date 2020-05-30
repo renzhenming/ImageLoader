@@ -6,10 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ImageView;
-
 import com.rzm.imageloader.R;
-import com.rzm.imageloader.loader.SimpleImageLoader;
 import com.rzm.permission.PermissionDenied;
 import com.rzm.permission.PermissionHelper;
 import com.rzm.permission.PermissionSucceed;
